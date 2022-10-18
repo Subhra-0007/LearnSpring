@@ -1,0 +1,55 @@
+Inversion Of Control : IoC
+
+Application will outsource the creation and management of objects and outsourcing will be handled by object factory.
+
+Spring ask the object factory to give an object according to the configuration file or annotation. This makes the app 
+configurable dynamically rather than hardcoding it.
+
+Spring Container consists of the object factory. Its primary functions are : 
+1. Create and manage objects (IoC)
+2. Inject object's dependency. (Dependency injection);
+
+Configuring Spring Container
+----------------------------
+1. XML file (legacy) 2. Java Annotation (modern) 3. Java Source Code (modern)
+
+Spring Development Process
+--------------------------
+1. Configure spring beans
+2. Create spring container
+3. Retrieve beans from spring container
+
+1. Configuring Sprinng Beans 
+----------------------------
+
+(XML Config)
+
+Spring Beans : java objects created by spring containers
+
+<beans ...>
+	<bean id="" class="" ></bean>
+</beans
+
+id : It is like an alias to represent this bean. It helps us to retrieve the bean from spring container.
+class : Fully Qualified classname of implementation class.
+ 
+2. Create spring container (known as Application Context)
+---------------------------------------------------------
+
+To read a xml config file,
+
+ClassPathXMLApplicationContext context = new ClassPathXMLApplicationContext("appContext.xml");
+
+appContext.xml is name of xml config file.
+
+3. Retrieve Spring beans from container
+---------------------------------------
+In our example,
+
+Coach coach = context.getBean("beanId","name of class or interface");
+
+beanId : id of bean config
+name of class or interface : For typecasting the bean into reqd class or interface.
+
+					Using this, it provides a safety by throwing BeanNotOfRequiredTypeException if required type of bean is not retrieved.
+Also it cannot throw ClassCastException on casting the class correctly.
