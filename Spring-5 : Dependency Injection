@@ -1,0 +1,108 @@
+Spring Dependency Injection : SDI
+
+Outsourcing your requirement(dependencies) to an external entity, asking them to inject the dependencies on your project.
+In spring , object factory takes care of it.
+
+Injection Types (Most Imp & Common)
+-----------------------------------
+1. Constructor injection
+2. Setter injecction
+
+Constructor Injection
+---------------------
+1. Define dependency class and interface
+2. Construct a constructor to inject it.
+3. Configure dependency injection in spring config file.
+
+For step 3 :
+
+<beans ...>
+	<bean id="A" class="" ></bean> : It is the dependency class
+
+	<bean id="" class="" ><constructor-arg ref="A" /></bean> : It is the class where dependency is injected. Note the ref.
+</beans
+
+Constructor injection (Behind the scenes)
+-----------------------------------------
+
+1. <bean id="myFortune" class="springdemo.ioc.HappyFortuneService"
+2. <bean id="baseballCoach" class="springdemo.ioc.BaseballCoach"><constructor-arg ref="myFortune" /></bean>
+
+When spring runs through this file,
+1. create HappyFortuneService myFortune = new HappyFortuneService();
+2. create BaseballCoach coach = new BaseballCoach(myFortune);
+
+Object factory does all this.
+
+Setter Injection
+----------------
+
+Inject dependencies by calling setter method in the class.
+
+1. Create Setter methods.
+2. Configure dependency in Spring config file.
+
+<beans ...>
+	<bean id="A" class="" ></bean> : It is the dependency class
+
+	<bean id="" class="" ><property name="name of property" ref="A" /></bean> : It is the class where dependency is injected. Note the ref.
+</beans
+
+Spring will look for a method name, set"Name of property" and call it and pass the ref. For example if property name is "bestStudent", spring will
+look for setBestStudent. So first letter of property name is capitalized.
+
+When spring runs through this file,
+1. create HappyFortuneService myFortune = new HappyFortuneService();
+2. create BaseballCoach coach = new BaseballCoach(myFortune); coach.setFortuneService(myFortune);
+
+Injecting Literal Values
+------------------------
+
+1. Create Setter methods.
+2. Configure dependency in Spring config file.
+
+<beans ...>
+	<bean id="A" class="" ></bean> : It is the dependency class
+
+	<bean id="" class="" > : It is the class where dependency is injected. Note the ref
+
+		<property name="name of property" ref="A" />   : ref is used to ref to an object
+
+		<property name="name of property" value="A" /> : value is used for injecting literal values
+	</bean> 
+</beans
+
+Inject literal values from Properties file
+------------------------------------------
+
+1. Create property File
+2. Load property file into spring config file.
+3. Reference values from property file.
+
+Create property File
+--------------------
+
+File name 'file.properties'
+
+foo.email=val
+foo.team=val, Note that foo can be anything but it must be consistent through out the property file.
+
+Load property file into spring config file
+------------------------------------------
+
+<context:property-placeholder location="classpath:file.properties" /> : Name of the file is given in location
+
+Reference values from property file
+-----------------------------------
+
+<beans ...>
+	<bean id="A" class="" ></bean> : It is the dependency class
+
+	<bean id="" class="" > : It is the class where dependency is injected. Note the ref
+
+		<property name="name of property" ref="A" />   : ref is used to ref to an object
+
+		<property name="name of property" value="${foo.email}" /> : value is used for injecting literal values
+		<property name="name of property" value="${foo.team}" />
+	</bean> 
+</beans
