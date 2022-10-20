@@ -1,0 +1,77 @@
+Spring Bean Scope
+
+
+1. Bean lifetime
+2. No of instances of bean created
+3. How is the bean shared ?
+
+Default scope : singleton
+-------------------------
+1. Only one instance of the bean is created. 
+
+2. It is cached in the memory and all request for bean will return a shared reference
+to the same bean.
+
+3. Best usage is when you dont reqd to maintain the state of a bean.
+
+{	Coach trackCoach = context.getBean("trackCoach", Coach.class); ----------->
+
+	Coach alphaTrackCoach = context.getBean("trackCoach", Coach.class); ------> both shares the same ref to "trackCoach" bean.
+
+	<bean id="" class="" scope="singleton">
+}
+
+Scopes					Usage
+
+singleton					single shared instance. Default
+
+prototype					create a new bean instance for each container request. (context.getBean() : new bean instance)
+
+request					scoped to HTTP req. Only used for web apps
+
+session					scoped to HTTP session. Only used for web apps
+
+global-session				scoped to global HTTP session. Only used for web apps
+
+
+Bean Lifecycle
+--------------
+
+Spring Container Started >> Bean Instantiated >> Dependencies Injected >> Internal Spring Process With Bean Factory
+
+>> Custom Init Method >> Do Work >> Custom Destroy Work >> Application closed.
+
+Bean Lifecycle Methods / Hooks
+------------------------------
+
+We can add custome code during Bean Initialization : -----------
+
+1. Custom Buisness logic.
+2. Setting up to handle resources(db, sockets, file) etc.
+
+	<bean id="" class="" init-method="methodName">
+
+We can add custom code during Bean Destruction : -----------
+
+1. Custom Buisness logic.
+2. Clean up to handle resources(db, sockets, file) etc.
+
+	<bean id="" class="" destroy-method="methodName">
+
+Steps To Code
+-------------
+
+1. Define init and destroy methods.
+2. COnfig them in spring config file.
+
+***** Note 
+----------
+
+1. Access modifier of these methods : public/protected/private
+2. Return type : Any but preferably void as return val cannot be captured
+3. Arguments : None
+4. Any name
+
+Spring does not call destroy method when scope is prototype. It only calls the init method.
+
+Look into the project :  destroy-prototype-scope-bean-with-custom-processor-xml-config in eclipse-workspace.
