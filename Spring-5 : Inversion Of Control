@@ -9,6 +9,8 @@ Spring Container consists of the object factory. Its primary functions are :
 1. Create and manage objects (IoC)
 2. Inject object's dependency. (Dependency injection);
 
+Both are handled by Object Factory.
+
 Configuring Spring Container
 ----------------------------
 1. XML file (legacy) 2. Java Annotation (modern) 3. Java Source Code (modern)
@@ -19,10 +21,10 @@ Spring Development Process
 2. Create spring container
 3. Retrieve beans from spring container
 
+(XML Config) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 1. Configuring Sprinng Beans 
 ----------------------------
-
-(XML Config)
 
 Spring Beans : java objects created by spring containers
 
@@ -53,3 +55,46 @@ name of class or interface : For typecasting the bean into reqd class or interfa
 
 					Using this, it provides a safety by throwing BeanNotOfRequiredTypeException if required type of bean is not retrieved.
 Also it cannot throw ClassCastException on casting the class correctly.
+
+(Annotation Config) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Special labels/marker added to java class which provide meta-data about the class are called annotation.
+They are processed at compile-time or run-time.
+
+E.g. : @Override -> compile time check
+
+Why annotation config ?
+-----------------------
+> XML config is lot of writing or verbose. Annotation helps us to mminimize the xml config.
+
+How it works ?
+--------------
+
+> Spring scans for special annotation through the java class. It then automatically register
+the bean in Spring container.
+
+Development Process
+-------------------
+1. Enable component scanning in Spring config file.
+2. Add @Component annotation to java class.
+3. Retrieve bean.
+
+Enable component scanning in Spring config file
+-----------------------------------------------
+
+<beans>
+	<context: component-scan base-package="package_name" /> 
+		    : spring scans all class in this package and all of class in its sub-packages.
+</beans>
+
+Add @Component annotation to java class
+---------------------------------------
+
+@Component("id")
+public  class MyCLass{}
+
+@Component
+Default component id : "myCLass" ( First letter of class name is lowercase )
+
+If however class name is REConstruct, then default bean id is not rEConstruct as first two char
+is uppercase. In such a  scenario, write @Component("someid")
