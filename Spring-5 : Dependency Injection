@@ -6,7 +6,9 @@ In spring , object factory takes care of it.
 Injection Types (Most Imp & Common)
 -----------------------------------
 1. Constructor injection
-2. Setter injecction
+2. Setter injection
+
+(XML Config) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 Constructor Injection
 ---------------------
@@ -106,3 +108,109 @@ Reference values from property file
 		<property name="name of property" value="${foo.team}" />
 	</bean> 
 </beans
+
+(Annotation Config) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Annotation uses auto-wiring for dependency injection.
+
+How it works ?
+--------------
+
+Spring will look for a class that matches the property (E.g. matches by type : interface or class).
+Then spring will automatically inject it.
+
+Injection Types in Auto-Wiring (Most Imp & Common)
+-----------------------------------
+1. Constructor injection
+2. Setter injection
+3. Field injection
+
+Constructor injection
+---------------------
+1. Define dependency class and interface
+2. Construct a constructor to inject it.
+3. Configure dependency injection with @Autowired annotation
+
+For step 3 :
+
+@Autowired
+public constructor(Service service){
+	this.service = service;
+}
+
+Spring will scan the components & search for a bean which implements Service. It thens automatically
+injects it into the class of the constructor. 
+
+Note :
+------
+
+If there is  only one constructor in the dependent class, no need to use @Autowired. Its a feature of 
+Spring > 4.3. View Code example in eclipse.
+
+Setter Injection
+----------------
+1. Define dependency class and interface
+2. Construct a setter method to inject it.
+3. Configure dependency injection with @Autowired annotation
+
+@Autowired
+public void setService(Service service){
+	this.service = service;
+}
+
+Note : We can inject dependency using any method if we use @Autowired annotation.
+
+Field Injection
+---------------
+
+Inject by setting field values on your class directly, even for ( private fields ).
+It is accomplished by Java Reflection.
+
+Place the @Autowired annotation directly on the field.
+
+@Autowired
+private Service service; : When object is created, then via java reflection, this field is automatically set
+
+************ Which injection to use ????
+
+Choose a style and remain consistent.
+
+
+Qualifiers for Dependency Injection ( NoUniqueBeanDefinition )
+--------------------------------------------------------------
+
+Spring will scan the components & search for a bean which implements Service. It thens automatically
+injects it into the class of the constructor. This is ok. But what if there are multiple implementation
+of that service, then which bean should spring choose to inject ???
+
+We have to give spring an unique bean to inject. We will use @Qualifier annotation to resolve this.
+
+
+@Autowired
+@Qualifier("HappyService") : HappyService is the bean id
+private Service service;
+
+
+We can use this in all types of injection.
+
+Note :
+------
+
+For Constructor injection, syntax is different.
+
+@Autowired
+public constructor(@Qualifier("beanid")Service service){
+	this.service = service;
+}
+
+Add Properties
+--------------
+
+1. Create properties file.
+2. Add <context:property-placeholder location="classpath:file.properties" /> just after component scan.
+3. Add values to field using @Value annotation
+
+@Value("${foo.email}")
+private String email;
+
+Read about @PostConstruct
