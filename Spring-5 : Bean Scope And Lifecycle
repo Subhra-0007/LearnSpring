@@ -41,6 +41,8 @@ Spring Container Started >> Bean Instantiated >> Dependencies Injected >> Intern
 
 >> Custom Init Method >> Do Work >> Custom Destroy Work >> Application closed.
 
+( XML Config ) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 Bean Lifecycle Methods / Hooks
 ------------------------------
 
@@ -75,3 +77,24 @@ Steps To Code
 Spring does not call destroy method when scope is prototype. It only calls the init method.
 
 Look into the project :  destroy-prototype-scope-bean-with-custom-processor-xml-config in eclipse-workspace.
+
+( Annotation Config ) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Use @Scope annotation
+
+@Scope("singleton")
+public class TennisCoach implements Coach{}
+
+Bean Lifecycle Methods / Hooks
+------------------------------
+
+In annotation too, we can add custome code during Bean Initialization as also Bean Destruction.
+We define init and destroy methods and use @PostConstruct and @PreDestroy annotation
+
+@PostConstruct
+public void afterCreate(){}
+
+@PreDestroy
+public void beforeDestroy(){}
+
+Spring does not call destroy method when scope is prototype. It only calls the init method.
