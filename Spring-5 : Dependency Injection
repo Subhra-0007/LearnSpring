@@ -212,5 +212,3 @@ Add Properties
 
 @Value("${foo.email}")
 private String email;
-
-Read about @PostConstruct
