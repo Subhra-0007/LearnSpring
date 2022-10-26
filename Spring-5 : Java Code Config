@@ -1,0 +1,113 @@
+( Java Code Config) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> (IoC, SDI, Scope)
+
+Development Process
+-------------------
+1. Create java class and annotate as @Configuration
+2. Add component scanning support @ComponentScan
+3. Read Spring java config class
+4. Retrieve bean from spring container
+
+Create java class and annotate as @Configuration
+------------------------------------------------
+
+@Configuration
+public class SportConfig{}
+
+Add component scanning support @ComponentScan
+---------------------------------------------
+
+@Configuration
+@ComponentScan("package name")
+public class SportConfig{}
+
+Read Spring java config class
+-----------------------------
+
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SportConfig.class);
+
+Retrieve bean from spring container
+-----------------------------------
+
+Coach coach = context.getBean("beanId","name of class or interface");
+
+Defining Beans in java config ( Without  using componenet scanning )
+--------------------------------------------------------------------
+1. Define method to expose beans
+2. Inject bean dependencies
+3. Read Spring java config class
+4. Retrieve bean from spring container
+
+Define method to expose beans
+-----------------------------
+
+@Bean can be used in real world to use existing 3rd-party class available to spring framework
+application context.
+
+@Configuration
+public class SportConfig{
+
+	@Bean 
+	public Coach swimCoach(){
+		SwimCoach swimcoach = new SwimCoach();
+
+		return swimcoach;
+	}	
+
+}
+
+Here bean id is : swimCoach i.e. name of the method.
+
+The return type 'Coach' helps to determine spring to look for any dependencies of the swimCoach,
+that implements the Coach interface.
+
+By default scope is singleton
+
+>> Adding dependencies
+----------------------
+
+@Configuration
+public class SportConfig{
+
+	@Bean
+	public FortuneService happyFortuneService(){
+		return new HappyFortuneService();
+	}
+
+	@Bean 
+	public Coach swimCoach(){
+		SwimCoach swimcoach = new SwimCoach(happyFortuneService());
+
+		return swimcoach;
+	}	
+
+}
+
+Read Spring java config class
+-----------------------------
+
+AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SportConfig.class);
+
+Retrieve bean from spring container
+-----------------------------------
+
+Coach coach = context.getBean("beanId","name of class or interface");
+
+Injecting values from properties file
+-------------------------------------
+
+1. Create properties file
+2. Load file in config
+3. Reference the values
+
+Load file in config
+-------------------
+
+@Configuration
+@PropertySource("classpath:sport.properties")
+public class SportConfig{}
+
+Reference the values
+--------------------
+
+@Value("${foo.email}")
+private String email;
