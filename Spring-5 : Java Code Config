@@ -111,3 +111,5 @@ Reference the values
 
 @Value("${foo.email}")
 private String email;
+
+Note : Till My knowledge, java config only support constructor injection
